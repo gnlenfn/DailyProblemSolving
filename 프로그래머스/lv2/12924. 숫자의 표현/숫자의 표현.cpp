@@ -3,18 +3,20 @@
 using namespace std;
 
 int solution(int n) {
-    int answer = 1;         // 절반 까지만 순회하는데, 1개로도 가능 (n 본인)
-    int num = (n + 1) / 2;
-    int sum = 0;
-    int left = 1;
+    int answer = 0;
+    int left = 0, right = 0;
+    vector<int> v;
+    for(int i = 1; i <= n; i++) v.push_back(i);
     
-    for(int i = 1; i < num + 1; i++){
-        sum += i;
-        
-        if(sum >= n){
-            while(sum > n) sum -= left++;
-            if(sum == n) answer++;
+    while(left < n){
+        int sum = accumulate(v.begin() + left, v.begin() + right, 0);
+        if(sum == n){
+            answer++;
+            left++;
+            right++;
         }
+        else if(sum > n) left++;
+        else if(sum < n) right++;
     }
-    return n == 1 ? 1 : answer;  // n이 1인 경우
+    return answer;
 }
