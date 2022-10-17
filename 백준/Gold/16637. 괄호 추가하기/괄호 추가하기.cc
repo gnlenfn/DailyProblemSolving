@@ -25,7 +25,7 @@ void go(int idx, int ret)
     }
     go(idx + 1, calc(ret, num[idx + 1], ops[idx]));
 
-    if (idx + 2 <= ops.size())
+    if (idx + 2 < num.size())
     {
         int tmp = calc(num[idx + 1], num[idx + 2], ops[idx + 1]);
         go(idx + 2, calc(ret, tmp, ops[idx]));
