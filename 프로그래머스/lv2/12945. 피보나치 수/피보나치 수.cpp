@@ -1,16 +1,22 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 int dp[100001];
-int solution(int n) {
 
-    dp[0] = 0;
-    dp[1] = 1;
+int fibo(int n) {
+    if(dp[n]){
+        return dp[n];
+    } 
     
-    for(int i = 2; i < n + 1; i++){
-        dp[i] = (dp[i-2] + dp[i-1]) % 1234567;
-    }
+    if (n == 1) return 1;
+    if (n == 0) return 0;
+    
+    dp[n] = (fibo(n-2) + fibo(n-1)) % 1234567;
     
     return dp[n];
+}
+int solution(int n) {
+    
+    return fibo(n);
+
 }
