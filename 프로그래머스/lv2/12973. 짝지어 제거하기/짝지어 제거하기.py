@@ -10,9 +10,6 @@ def solution(s):
         else:
             stack.append(char)
             
-    if stack:
-        return 0
-    
-    return 1
+    return int(not stack)
         
             
