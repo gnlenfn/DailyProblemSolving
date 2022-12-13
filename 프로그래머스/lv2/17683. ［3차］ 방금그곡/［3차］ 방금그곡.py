@@ -26,14 +26,17 @@ def get_duration(start, end):
     start_h, start_m = map(int, start.split(":"))
     end_h, end_m = map(int, end.split(":"))
     
-    hours = abs(end_h - start_h)
+    # if end_h == 0 and end_m == 0:
+    #     end_h = 24
+    # 00:00 에 끝난 것을 24:00 으로 바꿔 처리한 경우 오히려 틀림 -> 이유 알 수 없음
+    hours = end_h - start_h
     mins = 60 * hours + end_m - start_m
     return mins
 
 def transform(codes):
-    while codes.find("#") > 0:
-        idx = codes.index("#")
-        codes = codes[:idx-1] + codes[idx-1].lower() + codes[idx+1:]
-        
+    semi = {"C#": "c", "D#": "d", "F#": "f", "G#": "g", "A#": "a"}
+    for key, val in semi.items():
+        codes = codes.replace(key, val)
+
     return codes
     
