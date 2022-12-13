@@ -26,7 +26,7 @@ def get_duration(start, end):
     start_h, start_m = map(int, start.split(":"))
     end_h, end_m = map(int, end.split(":"))
     
-    hours = end_h - start_h
+    hours = abs(end_h - start_h)
     mins = 60 * hours + end_m - start_m
     return mins
 
