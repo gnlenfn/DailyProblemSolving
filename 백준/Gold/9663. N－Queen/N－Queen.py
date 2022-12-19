@@ -34,3 +34,7 @@ def recur(row):
 recur(0)
 print(answer)
 
+"""
+동일한 코드 python으로는 시간초과,
+pypy3로는 통과
+"""
