@@ -1,11 +1,12 @@
 from collections import defaultdict
+import sys
 
-n = int(input())
+n = int(sys.stdin.readline())
 answer = 0
 dots = defaultdict(list)
 
 for _ in range(n):
-    num, color = map(int, input().split())
+    num, color = map(int, sys.stdin.readline().split())
     dots[color].append(num)   # 색깔별로 점 위치 기록
 
 for col in dots.keys():
