@@ -1,17 +1,14 @@
 import sys
 
 n = int(sys.stdin.readline())
-
 words = []
-used = set()
+
 for _ in range(n):
     word = sys.stdin.readline().strip()
+    words.append(word)
+    
+words.sort(key=lambda x : (len(x), x))
 
-    if word not in used:
-        words.append((len(word), word))
-        used.add(word)
-
-words.sort()
-
-for _, word in words:
-    print(word)
+for idx in range(n):
+    if idx == 0 or words[idx] != words[idx - 1]:
+        print(words[idx])
