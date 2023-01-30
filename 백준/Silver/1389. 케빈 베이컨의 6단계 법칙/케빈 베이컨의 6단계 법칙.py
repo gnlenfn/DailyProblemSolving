@@ -31,9 +31,10 @@ def bfs(start):
     return sum(visited)  # 케빈 베이컨 수 리턴
 
 
-for i in range(1, n + 1):
-    score = bfs(i)
-    ans[i - 1] = score  # 1부터 n까지 사람 번호 매칭하기 때문에 인덱스는 -1 해줘야 함
+min_val, min_idx = bfs(1), 1   # 1번 사람의 케빈 베이컨 수가 가장 작다고 두고 시작
+for i in range(2, n + 1):
+    val = bfs(i)
+    if min_val > val:
+        min_val, min_idx = val, i  # 모든 사람의 케빈 베이컨 수를 구하면서 바로바로 최소값을 찾는다
 
-min_val = min(ans)
-print(ans.index(min_val) + 1)  # 인덱스를 찾기 때문에 정답은 +1 해줘야 사람에게 주어진 수 출력
+print(min_idx)
