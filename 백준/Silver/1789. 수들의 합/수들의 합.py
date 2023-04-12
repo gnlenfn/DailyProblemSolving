@@ -1,10 +1,4 @@
 s = int(input())
 
-for i in range(1, s + 1):
-    if s - i < 0:
-        break
-
-    s -= i
-    result = i
-
-print(result)
+answer = ((1 + 8 * s) ** 0.5 - 1) / 2
+print(int(answer))
