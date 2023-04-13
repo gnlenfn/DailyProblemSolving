@@ -32,17 +32,18 @@ def solution(plans):
                         stack[-1][0] -= tmp  # 수행한 시간 만큼 빼고 그대로 보관
                         break
                         
-                    
             else:
                 # 도중에 새 과제 해야함
                 stack.append([cur_end - nxt[1], cur[0]])
                 plans.popleft()
             
         else:
+            # plan에 남은거 하나 뿐이다? -> 그냥 끝까지 끝내면 된다
             answer.append(plans[0][0])
             plans.popleft()
 
     while stack:
+        # 아직 stack에 미완료 있으면 가장 최근에 들어온 것 부터 완료 처리
         answer.append(stack.pop()[1])
         
     return answer
