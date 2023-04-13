@@ -4,46 +4,44 @@ from collections import deque
 
 def solution(plans):
     answer = []
-    # 시간 계산 편하게 하기 위해 모두 분으로 바꾸기
-    for idx, (_, start, _) in enumerate(plans):
+    for idx, (name, start, playtime) in enumerate(plans):
         h, m = map(int, start.split(":"))
-        s = 60 * h + m
-        plans[idx][1] = s
+        plans[idx][1] = h * 60 + m
     
-    # 시작 시간 순서대로 정렬
-    plans = sorted(plans, key=lambda x: x[1])
+    plans.sort(key=lambda x: x[1])
     plans = deque(plans)
-    stack = []  # 멈춘 과제들 저장
+    stop = []  # 도중에 중단된 작업들 저장
     while plans:
-        if len(plans) > 1:
+        if len(plans) < 2:
+            answer.append(plans.popleft()[0])
+        else:
             cur, nxt = plans[0], plans[1]
-            cur_end = cur[1] + int(cur[2])  # 시작시간 + 걸리는 시간 = 끝나는 시간
+            cur_end = cur[1] + int(cur[2])  # 현재 작업이 끝나는 시간
+            nxt_start = nxt[1]  # 다음 작업이 시작할 시간
             
-            # 시간 안에 과제 끝낼 수 있어
-            if cur_end <= nxt[1]: # 다음 과제의 시작시간보다 끝나는 시간이 작거나 같음
+            if cur_end <= nxt_start:  # 다음 작업 시작하기 전에 다 끝내기 가능
                 answer.append(cur[0])
                 plans.popleft()
-                tmp = nxt[1] - cur_end  # 다음 과제 까지 남은 시간
-                while stack: 
-                    if stack[-1][0] <= tmp:  # 남은 시간 동안 중단된 것 클리어 가능
-                        tmp -= stack[-1][0]
-                        answer.append(stack.pop()[1])  # 중단됐던 것 끝내고 answer에 append
+                
+                # stop 작업
+                t = nxt_start - cur_end  # 다음 작업까지 남은 틈새 시간
+                while stop:
+                    if stop[-1][0] <= t:  # 틈새 시간동안 작업 끝내기 가능
+                        poped = stop.pop()
+                        t -= poped[0]
+                        answer.append(poped[1])
+                    
                     else:
-                        stack[-1][0] -= tmp  # 수행한 시간 만큼 빼고 그대로 보관
-                        break
-                        
-            else:
-                # 도중에 새 과제 해야함
-                stack.append([cur_end - nxt[1], cur[0]])
-                plans.popleft()
+                        stop[-1][0] -= t
+                        break  # 하던거 멈추고 다음 작업 넘어가야 함
             
-        else:
-            # plan에 남은거 하나 뿐이다? -> 그냥 끝까지 끝내면 된다
-            answer.append(plans[0][0])
-            plans.popleft()
-
-    while stack:
-        # 아직 stack에 미완료 있으면 가장 최근에 들어온 것 부터 완료 처리
-        answer.append(stack.pop()[1])
+            else:
+                # 작업 도중에 멈춰야 함
+                left_time = cur_end - nxt_start
+                stop.append([left_time, cur[0]])
+                plans.popleft()
+    
+    while stop:
+        answer.append(stop.pop()[1])  # 중단 됐던 거 남아있으면 가장 최근에 들어온 것 부터 마무리
         
     return answer
