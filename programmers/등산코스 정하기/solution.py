@@ -25,7 +25,7 @@ def solution(n, paths, gates, summits):
             intensity, node = heapq.heappop(pq)
             
             if node in summit_set or intensity > visited[node]:
-                # 산봉우리 만나면 끝
+                # 산봉우리 만나면 끝 or 더 큰 intensity로는 안감
                 continue
             
             for w, nxt in graph[node]:
